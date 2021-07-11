@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <title>Roulette Wheel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="icon" href="data:image/x-icon;," type="image/x-icon">
+  <link rel="stylesheet" href="css/index.css"/>
+
+  <script type='module'>
+    import RouletteWheel from 'js/roulette-wheel.js'
+    import exampleSettings from 'js/roulette-example-settings.js'
+
+    window.onload = () => {
+
+      // Check browser supports `document.fonts`.
+      if (!'fonts' in document) {
+        init(); return;
+      }
+
+      // Force load fonts, then init.
+      Promise.all([
+        document.fonts.load('1em Rubik'),
+        document.fonts.load('1em Amatic SC'),
+        document.fonts.load('1em Pragati Narrow'),
+      ]).then(() => init());
+
+    }
+
+    function init() {
+
+      // Initalise wheel:
+      // Save object to window for easy debugging.
+      window.wheel = new RouletteWheel(document.querySelector('.wheel-wrapper'));
+
+      const dropdown = document.querySelector('select');
+
+      // Initalise dropdown:
+      exampleSettings.forEach(s => {
+        const opt = document.createElement('option');
+        opt.dataset.id = s.id;
+        opt.textContent = s.label;
+        dropdown.appendChild(opt);
+      });
+
+      // Handle dropdown event:
+      dropdown.onchange = () => {
+        const id = parseInt(dropdown.options[dropdown.selectedIndex].dataset.id);
+        window.wheel.init({
+          ...exampleSettings[id],
+          onSpin: e => console.log(e), // Log when the wheel is spun.
+          onRest: e => console.log(e), // Log when the wheel comes to a rest.
+        });
+      }
+
+      // Select default:
+      dropdown.options[0].selected = 'selected';
+      dropdown.onchange();
+
+    }
+
+  </script>
+
+</head>
+
+<body>
+
+  <div class="gui-wrapper">
+    <p>Click-drag (or flick) to spin the wheel.</p>
+    <p><label>Examples:</label><select ></select></p>
+  </div>
+
+  <div class="wheel-wrapper"></div>
+
+</body>
+</html>
