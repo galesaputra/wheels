@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\UserAction;
 use Auth;
 use App\Question;
 use App\Result;
@@ -78,4 +79,27 @@ class HomeController extends Controller
             return view('home', compact('questions', 'users', 'quizzes', 'average', 'jml_topic', 'jml_usr', 'jml_dsn', 'jml_test'));
         }
     }
+    public function luckyDraw()
+    {
+        $class_get = DB::table('class')
+            ->select('topics_title')
+            ->groupBy('topics_title')
+            ->get();
+        return view('lucky_draw', compact('class_get'));
+    }
+    public function getUsersByClass($id)
+    {
+        $users_get = DB::table('class')
+            ->join('users', 'users.id', '=', 'class.users_id')
+            ->select('users.*','class.topics_title')
+            ->where('class.topics_title',$id)
+            ->get();
+        return response()->json(['status'=>"success", 'response'=>$users_get]);
+        return $users_get;
+    }
+    public function boxPage()
+    {
+        return view('box_page');
+    }
+
 }

@@ -38,3 +38,4 @@
 <meta property="og:title" content="LaraQuiz - how well do you know Laravel?" />
 <meta property="og:image" content="{{ asset('laraquiz.png') }}" />
 <meta property="og:description" content="Mini-project with Laravel Quiz. Powered by QuickAdminPanel.com code generator." />
+@yield('javascript_head')

@@ -56,4 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('questions_options_mass_destroy', ['uses' => 'QuestionsOptionsController@massDestroy', 'as' => 'questions_options.mass_destroy']);
     Route::resource('results', 'ResultsController');
     Route::post('results_mass_destroy', ['uses' => 'ResultsController@massDestroy', 'as' => 'results.mass_destroy']);
+    Route::get('/lucky_draw', 'HomeController@luckyDraw')->name('lucky_draw');
+    Route::get('/box_page', 'HomeController@boxPage')->name('box_page');
+    Route::get('/get-users-by-class/{id}', 'HomeController@getUsersByClass');
 });
