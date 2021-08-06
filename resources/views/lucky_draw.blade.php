@@ -36,6 +36,7 @@
                         </canvas>
                     </td>
                     <td width="438" height="582"  align="center" valign="center">
+                        <p>Hasil Lucky Draw</p>
                         <table style="width:100%" class="table">
                             <tr>
                                 <th>No</th>
@@ -43,6 +44,7 @@
                                 <th>Email</th>
                             </tr>
                             <tbody id="tbody">
+                            <td colspan="3" style="text-align: center;background-color: gray">Data Masih Kosong</td>
                             </tbody>
                         </table>
                     </td>
