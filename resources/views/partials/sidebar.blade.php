@@ -95,6 +95,14 @@
                             </span>
                     </a>
                 </li>
+                <li class="{{ $request->segment(1) == 'upload' ? 'active active-sub' : '' }}">
+                    <a href="{{ route('uploads.index') }}">
+                        <i class="fa fa-th-list"></i>
+                        <span class="title" style="color: black">
+                                @lang('quickadmin.uploads.title')
+                            </span>
+                    </a>
+                </li>
 
                 <li>
                 <a href="#logout" onclick="$('#logout').submit();">

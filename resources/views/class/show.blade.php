@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">@lang('quickadmin.topics.title')</h3>
+    <h3 class="page-title">@lang('quickadmin.upload.title')</h3>
     
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <table class="table table-bordered table-striped">
-                        <tr><th>@lang('quickadmin.topics.fields.title')</th>
+                        <tr><th>@lang('quickadmin.upload.fields.title')</th>
                     <td>{{ $topic->title }}</td></tr>
                     </table>
                 <table class="table table-bordered table-striped {{ count($klass) > 0 ? 'datatable' : '' }} dt-select">

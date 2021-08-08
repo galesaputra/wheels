@@ -59,4 +59,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/lucky_draw', 'HomeController@luckyDraw')->name('lucky_draw');
     Route::get('/box_page', 'HomeController@boxPage')->name('box_page');
     Route::get('/get-users-by-class/{id}', 'HomeController@getUsersByClass');
+    Route::resource('uploads', 'UploadsController');
+    Route::post('upload_mass_destroy', ['uses' => 'UploadsController@massDestroy', 'as' => 'upload.mass_destroy']);
+
 });

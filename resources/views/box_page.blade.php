@@ -57,8 +57,6 @@
             </section>
         </div>
     </div>
-    <a class="trigger_popup_fricc">Click here to show the popup</a>
-
     <div class="hover_bkgr_fricc">
         <span class="helper"></span>
         <div style="position: relative">
