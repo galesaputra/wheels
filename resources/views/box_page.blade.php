@@ -138,8 +138,6 @@
                     // $dragAndDrop.on('drop', setIndexes);
                 },
                 // (Optional)
-                // Removes the delete button from the first list item,
-                // defaults to false.
                 isFirstItemUndeletable: true
             });
         });

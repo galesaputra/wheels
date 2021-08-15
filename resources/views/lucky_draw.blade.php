@@ -12,21 +12,50 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-3">
-                    <select class="form-control" name="topics_title" id="class_selected" style="height: auto">
-                        <option disabled selected>Pilih Kelas</option>
-                        @foreach($class_get as $row)
-                            <option value="{{$row->topics_title}}">{{$row->topics_title}}</option>
-                        @endforeach
-                    </select>
+                    <label for="name">Data</label>
+                    <form action="#" class="data-repeater">
+                        <div data-repeater-list="data">
+                            <div data-repeater-item>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="col-md-9">
+                                        <input name="data" type="text" class="form-control" id="name"
+                                               aria-describedby="name"
+                                               placeholder="Data"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-outline-danger" data-repeater-delete
+                                                style="margin-top: 2px;">
+                                            <i data-feather="x" class="me-25"></i>
+                                            <span>Hapus</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-icon btn-warning" data-repeater-create="">
+                            <i data-feather="plus" class="me-25"></i>
+                            <span>Tambah</span>
+                        </button>
+                    </form>
                 </div>
             </div>
+            <div class="row" style="margin-top: 20px; ">
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-icon btn-primary" id="SaveData">
+                        <i data-feather="plus" class="me-25"></i>
+                        <span>Simpan</span>
+                    </button>
+                </div>
+            </div>
+
 
             <table cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td>
                         <div class="power_controls">
                             <br/>
-                            <img id="spin_button" src="spin_off.png" alt="Spin" onClick="startSpin();" style="cursor: pointer"/>
+                            <img id="spin_button" src="spin_off.png" alt="Spin" onClick="startSpin();"
+                                 style="cursor: pointer"/>
                         </div>
                     </td>
                     <td width="438" height="582" class="the_wheel" align="center" valign="center">
@@ -35,13 +64,12 @@
                                 try another.</p>
                         </canvas>
                     </td>
-                    <td width="438" height="582"  align="center" valign="center">
+                    <td width="438" height="582" align="center" valign="center">
                         <p>Hasil Lucky Draw</p>
                         <table style="width:100%" class="table">
                             <tr>
                                 <th>No</th>
-                                <th>nama</th>
-                                <th>Email</th>
+                                <th>Data</th>
                             </tr>
                             <tbody id="tbody">
                             <td colspan="3" style="text-align: center;background-color: gray">Data Masih Kosong</td>
@@ -61,18 +89,18 @@
     </div>
 @endsection
 @section('javascript')
+    <script type="text/javascript" src="./repeater.js"></script>
     <script>
-        let luckdraw= [
-            {'fillStyle': '#'+Math.floor(Math.random()*16777215).toString(16), 'text': 'Lara'},
-            {'fillStyle': '#'+Math.floor(Math.random()*16777215).toString(16), 'text': 'Quiz'},
-            {'fillStyle': '#'+Math.floor(Math.random()*16777215).toString(16), 'text': 'Lucky'},
-            {'fillStyle': '#'+Math.floor(Math.random()*16777215).toString(16), 'text': 'Draw'},
+        let luckdraw = [
+            {'fillStyle': '#' + Math.floor(Math.random() * 16777215).toString(16), 'text': 'Lara'},
+            {'fillStyle': '#' + Math.floor(Math.random() * 16777215).toString(16), 'text': 'Quiz'},
+            {'fillStyle': '#' + Math.floor(Math.random() * 16777215).toString(16), 'text': 'Lucky'},
+            {'fillStyle': '#' + Math.floor(Math.random() * 16777215).toString(16), 'text': 'Draw'},
         ]
         var lengthDraw = luckdraw.length;
-        if(lengthDraw <= 10){
+        if (lengthDraw <= 10) {
             var textsize = 15
-        }
-        else{
+        } else {
             var textsize = 12
         }
         let data_user = '';
@@ -82,7 +110,8 @@
         let wheelSpinning = false;
         let audio = new Audio('tick.mp3');
         let theWheel = ''
-        function winwheel () {
+
+        function winwheel() {
 
             theWheel = new Winwheel({
                 'outerRadius': 212,        // Set outer radius so wheel fits inside the background.
@@ -111,6 +140,7 @@
 
 
         }
+
         // Loads the tick audio sound in to an audio object.
 
         // This function is called when the sound is to be played.
@@ -128,33 +158,32 @@
         // Click handler for spin button.
         // -------------------------------------------------------
         function startSpin() {
-            if(!cek_input_class){
-                alert("Silahkan Pilih Kelas Terlebih Dahulu");
-            }
-            else{
-            // Ensure that spinning can't be clicked again while already running.
-            if (wheelSpinning == false) {
-                // Based on the power level selected adjust the number of spins for the wheel, the more times is has
-                // to rotate with the duration of the animation the quicker the wheel spins.
-                if (wheelPower == 1) {
-                    theWheel.animation.spins = 3;
-                } else if (wheelPower == 2) {
-                    theWheel.animation.spins = 6;
-                } else if (wheelPower == 3) {
-                    theWheel.animation.spins = 10;
+            if (!cek_input_class) {
+                alert("Silahkan Tambahkan Data Terlebih Dahulu");
+            } else {
+                // Ensure that spinning can't be clicked again while already running.
+                if (wheelSpinning == false) {
+                    // Based on the power level selected adjust the number of spins for the wheel, the more times is has
+                    // to rotate with the duration of the animation the quicker the wheel spins.
+                    if (wheelPower == 1) {
+                        theWheel.animation.spins = 3;
+                    } else if (wheelPower == 2) {
+                        theWheel.animation.spins = 6;
+                    } else if (wheelPower == 3) {
+                        theWheel.animation.spins = 10;
+                    }
+
+                    // Disable the spin button so can't click again while wheel is spinning.
+                    document.getElementById('spin_button').src = "spin_off.png";
+                    document.getElementById('spin_button').className = "";
+
+                    // Begin the spin animation by calling startAnimation on the wheel object.
+                    theWheel.startAnimation();
+
+                    // Set to true so that power can't be changed and spin button re-enabled during
+                    // the current animation. The user will have to reset before spinning again.
+                    wheelSpinning = true;
                 }
-
-                // Disable the spin button so can't click again while wheel is spinning.
-                document.getElementById('spin_button').src = "spin_off.png";
-                document.getElementById('spin_button').className = "";
-
-                // Begin the spin animation by calling startAnimation on the wheel object.
-                theWheel.startAnimation();
-
-                // Set to true so that power can't be changed and spin button re-enabled during
-                // the current animation. The user will have to reset before spinning again.
-                wheelSpinning = true;
-            }
             }
         }
 
@@ -185,27 +214,27 @@
                 alert('Oh no, you have gone BANKRUPT!');
             } else {
                 var resultObject = search(indicatedSegment.text, data_user);
+
                 data_user_tabel.push(resultObject)
                 $("#tbody").empty();
                 var tbody = document.getElementById('tbody');
 
                 for (var i = 0; i < data_user_tabel.length; i++) {
-                    var no =i+1;
+                    var no = i + 1;
                     var tr = "<tr>";
 
                     /* Must not forget the $ sign */
-                    tr += "<td>" + no + "</td>" +"<td>" + data_user_tabel[i].name + "</td>" + "<td>$" + data_user_tabel[i].email + "</td></tr>";
+                    tr += "<td>" + no + "</td>" + "<td>" + data_user_tabel[i].data + "</td></tr>";
                     /* We add the table row to the table body */
                     tbody.innerHTML += tr;
                 }
-                $.each(luckdraw, function(i){
-                    if(luckdraw[i].text === indicatedSegment.text) {
-                        luckdraw.splice(i,1);
+                $.each(luckdraw, function (i) {
+                    if (luckdraw[i].text === indicatedSegment.text) {
+                        luckdraw.splice(i, 1);
                         lengthDraw = luckdraw.length;
-                        if(lengthDraw <= 10){
+                        if (lengthDraw <= 10) {
                             textsize = 15
-                        }
-                        else{
+                        } else {
                             textsize = 12
                         }
                         winwheel()
@@ -221,45 +250,69 @@
 
             }
         }
-        function search(nameKey, myArray){
-            for (var i=0; i < myArray.length; i++) {
-                if (myArray[i].name === nameKey) {
+
+        function search(nameKey, myArray) {
+            for (var i = 0; i < myArray.length; i++) {
+                if (myArray[i].data === nameKey) {
                     return myArray[i];
                 }
             }
         }
-        $('#class_selected').change(function () {
-            var data = $(this).val();
-            if (data) {
-                $.ajax({
-                    type: "GET",
-                    url: "/get-users-by-class/" + data,
-                    dataType: 'JSON',
-                    success: function (res) {
-                        if(res.response.length != 0){
-                            luckdraw = [];
-                            cek_input_class = true;
-                            data_user =  res.response
-                        }
-                        var cek_jml = res.response.length - 1;
-                        for (let i = 0; i < res.response.length; i++) {
-                            luckdraw.push({'fillStyle': '#'+Math.floor(Math.random()*16777215).toString(16), 'text': res.response[i].name});
-                            if(i == cek_jml){
-                                 lengthDraw = luckdraw.length;
-                                if(lengthDraw <= 10){
-                                     textsize = 15
-                                }
-                                else{
-                                     textsize = 12
-                                }
-                                winwheel()
-                            }
-                        }
 
+        $('#SaveData').click(function () {
+            var dataarray = $('.data-repeater').repeaterVal()
+            let data_user_tabel = [];
+            if (dataarray.data[0].data == "") {
+                alert('Tambahkan Data Terlebih Dahulu.');
+            } else {
+                // dataarray.data = dataarray.data.sort(() => Math.random() - 0.5)
+                if (dataarray.data.length != 0) {
+                    luckdraw = [];
+                    cek_input_class = true;
+                    data_user = dataarray.data
+                }
+                var cek_jml = dataarray.data.length - 1;
+                for (let i = 0; i < dataarray.data.length; i++) {
+                    luckdraw.push({
+                        'fillStyle': '#' + Math.floor(Math.random() * 16777215).toString(16),
+                        'text': dataarray.data[i].data
+                    });
+                    if (i == cek_jml) {
+                        lengthDraw = luckdraw.length;
+                        if (lengthDraw <= 10) {
+                            textsize = 15
+                        } else {
+                            textsize = 12
+                        }
+                        winwheel()
                     }
-
-                });
+                }
             }
-        })
+        });
+
+        $(document).ready(function () {
+
+            $('.data-repeater').repeater({
+                defaultValues: {
+                    'text-input': 'foo'
+                },
+                show: function () {
+                    $(this).slideDown();
+                    // Feather Icons
+                },
+                hide: function (deleteElement) {
+                    if (confirm('Are you sure you want to delete this element?')) {
+                        $(this).slideUp(deleteElement);
+                    }
+                },
+                ready: function (setIndexes) {
+                    // $dragAndDrop.on('drop', setIndexes);
+                },
+                // (Optional)
+                isFirstItemUndeletable: true
+            });
+
+        });
+
     </script>
 @endsection
