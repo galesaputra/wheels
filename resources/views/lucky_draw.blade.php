@@ -37,6 +37,14 @@
                             <span>Tambah</span>
                         </button>
                     </form>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-9">
+                            <input name="data" type="text" class="form-control" id="jml_kel"
+                                   onkeypress='validate(event)'
+                                   placeholder="Jumlah Kelompok"/>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="row" style="margin-top: 20px; ">
@@ -58,39 +66,57 @@
                                  style="cursor: pointer"/>
                         </div>
                     </td>
-                    <td width="438" height="582" class="the_wheel" align="center" valign="center">
+                    <td height="582" class="the_wheel" align="center" valign="center">
                         <canvas id="canvas" width="434" height="434">
                             <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please
                                 try another.</p>
                         </canvas>
                     </td>
-                    <td width="438" height="582" align="center" valign="center">
-                        <p>Hasil Lucky Draw</p>
-                        <table style="width:100%" class="table">
-                            <tr>
-                                <th>No</th>
-                                <th>Data</th>
-                            </tr>
-                            <tbody id="tbody">
-                            <td colspan="3" style="text-align: center;background-color: gray">Data Masih Kosong</td>
-                            </tbody>
-                        </table>
-                    </td>
+                    {{--                    <td width="438" height="582" align="center" valign="center">--}}
+                    {{--                        <p>Hasil Lucky Draw</p>--}}
+                    {{--                        <table style="width:100%" class="table">--}}
+                    {{--                            <tr>--}}
+                    {{--                                <th>No</th>--}}
+                    {{--                                <th>Data</th>--}}
+                    {{--                            </tr>--}}
+                    {{--                            <tbody id="tbody">--}}
+                    {{--                            <td colspan="3" style="text-align: center;background-color: gray">Data Masih Kosong</td>--}}
+                    {{--                            </tbody>--}}
+                    {{--                        </table>--}}
+                    {{--                    </td>--}}
                 </tr>
             </table>
-            <script>
-                // Create new wheel object specifying the parameters at creation time.
-
-            </script>
-
         </div>
 
 
     </div>
+    <div class="table-data">
+    </div>
+
 @endsection
 @section('javascript')
     <script type="text/javascript" src="./repeater.js"></script>
     <script>
+        var selectspin = 0;
+
+        function validate(evt) {
+            var theEvent = evt || window.event;
+
+            // Handle paste
+            if (theEvent.type === 'paste') {
+                key = event.clipboardData.getData('text/plain');
+            } else {
+                // Handle key press
+                var key = theEvent.keyCode || theEvent.which;
+                key = String.fromCharCode(key);
+            }
+            var regex = /[0-9]|\./;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+        }
+
         let luckdraw = [
             {'fillStyle': '#' + Math.floor(Math.random() * 16777215).toString(16), 'text': 'Lara'},
             {'fillStyle': '#' + Math.floor(Math.random() * 16777215).toString(16), 'text': 'Quiz'},
@@ -206,50 +232,82 @@
         // Called when the spin animation has finished by the callback feature of the wheel because I specified callback in the parameters.
         // -------------------------------------------------------
         function alertPrize(indicatedSegment) {
-            // Just alert to the user what happened.
-            // In a real project probably want to do something more interesting than this with the result.
-            if (indicatedSegment.text == 'LOOSE TURN') {
-                alert('Sorry but you loose a turn.');
-            } else if (indicatedSegment.text == 'BANKRUPT') {
-                alert('Oh no, you have gone BANKRUPT!');
-            } else {
+
+            var countspin = selectspin + 1;
+            if (countspin > $('#jml_kel').val()) {
+
+                selectspin = 0
+                $("#table_no_" + selectspin).empty();
+                var tbody = document.getElementById("table_no_" + selectspin);
                 var resultObject = search(indicatedSegment.text, data_user);
-
+                Object.assign(resultObject, {tabel: selectspin, status: 0});
                 data_user_tabel.push(resultObject)
-                $("#tbody").empty();
-                var tbody = document.getElementById('tbody');
-
+                var no = 0;
                 for (var i = 0; i < data_user_tabel.length; i++) {
-                    var no = i + 1;
-                    var tr = "<tr>";
+                    if (data_user_tabel[i].tabel == selectspin) {
+                        no = no + 1;
+                        var tr = "<tr>";
 
-                    /* Must not forget the $ sign */
-                    tr += "<td>" + no + "</td>" + "<td>" + data_user_tabel[i].data + "</td></tr>";
-                    /* We add the table row to the table body */
-                    tbody.innerHTML += tr;
-                }
-                $.each(luckdraw, function (i) {
-                    if (luckdraw[i].text === indicatedSegment.text) {
-                        luckdraw.splice(i, 1);
-                        lengthDraw = luckdraw.length;
-                        if (lengthDraw <= 10) {
-                            textsize = 15
-                        } else {
-                            textsize = 12
-                        }
-                        winwheel()
-
-                        return false;
+                        /* Must not forget the $ sign */
+                        tr += "<td>" + no + "</td>" + "<td>" + data_user_tabel[i].data + "</td></tr>";
+                        /* We add the table row to the table body */
+                        tbody.innerHTML += tr;
                     }
-                });
-                alert("You have won " + indicatedSegment.text);
-                theWheel.stopAnimation(false);  // Stop the animation, false as param so does not call callback function.
-                theWheel.rotationAngle = 0;     // Re-set the wheel angle to 0 degrees.
-                theWheel.draw();                // Call draw to render changes to the wheel.
-                wheelSpinning = false;          // Reset to false to power buttons and spin can be clicked again.
+                }
+                selectspin = 1
+            } else {
+                $("#table_no_"+selectspin).empty();
+                var tbody = document.getElementById("table_no_" + selectspin);
+
+                var resultObject = search(indicatedSegment.text, data_user);
+                Object.assign(resultObject, {tabel: selectspin, status: 0});
+                data_user_tabel.push(resultObject)
+                var no = 0
+                for (var i = 0; i < data_user_tabel.length; i++) {
+                    if (data_user_tabel[i].tabel == selectspin) {
+                        no = no + 1;
+                        if(data_user_tabel[i].status == 1){
+                            var tr = "<tr style='background: red'>";
+                        }
+                        else{
+                            var tr = "<tr>";
+                        }
+
+                        /* Must not forget the $ sign */
+                        tr += "<td>" + no + "</td>" + "<td>" + data_user_tabel[i].data + "</td></tr>";
+                        /* We add the table row to the table body */
+                        tbody.innerHTML += tr;
+                    }
+                }
+
+                selectspin = parseInt(selectspin + 1);
 
             }
+
+
+            $.each(luckdraw, function (i) {
+                if (luckdraw[i].text === indicatedSegment.text) {
+                    luckdraw.splice(i, 1);
+                    lengthDraw = luckdraw.length;
+                    if (lengthDraw <= 10) {
+                        textsize = 15
+                    } else {
+                        textsize = 12
+                    }
+                    winwheel()
+
+                    return false;
+                }
+            });
+            alert("You have won " + indicatedSegment.text);
+            theWheel.stopAnimation(false);  // Stop the animation, false as param so does not call callback function.
+            theWheel.rotationAngle = 0;     // Re-set the wheel angle to 0 degrees.
+            theWheel.draw();                // Call draw to render changes to the wheel.
+            wheelSpinning = false;          // Reset to false to power buttons and spin can be clicked again.
+
+
         }
+
         function search(nameKey, myArray) {
             for (var i = 0; i < myArray.length; i++) {
                 if (myArray[i].data === nameKey) {
@@ -258,32 +316,74 @@
             }
         }
 
+        function searchacak(nameKey, myArray) {
+            for (var i = 0; i < myArray.length; i++) {
+                if (myArray[i].tabel === nameKey) {
+                    return myArray[i];
+                }
+            }
+        }
+
+        function makeTable(num) {
+            var output = '<div class="row">';
+            //create num rows
+            var count = 0;
+            for (var i = 0; i < num; i++) {
+                count = i + 1;
+                //for each row
+                var idtable = "table_no_" + i;
+                var idbutton = "button_no_" + i;
+                output += '<div class="col-md-4">';
+                output += '<p style="text-align:center">Table Kelompok ' + count + '</p>';
+                output += '<table class="table">';
+                output += ' <tr> <th>No</th> <th>Data</th> </tr>'
+                output += '<tbody id="' + idtable + '">'
+                output += '</tbody>';
+                output += '</table>';
+                output += '<button type="button" data-id="' + i + '" onclick="getacak(this);" class="btn btn-icon btn-primary"> <i data-feather="plus" class="me-25"></i> <span>Acak & Pilih</span> </button>';
+                output += '</div>';
+
+            }
+            output += '</div>';
+            return output;
+        }
+
         $('#SaveData').click(function () {
             var dataarray = $('.data-repeater').repeaterVal()
             let data_user_tabel = [];
-            if (dataarray.data[0].data == "") {
-                alert('Tambahkan Data Terlebih Dahulu.');
+            if ($('#jml_kel').val() == null || $('#jml_kel').val() == '') {
+                alert("Masukkan Jumlah Kelompok Terlebih Dahulu")
             } else {
-                // dataarray.data = dataarray.data.sort(() => Math.random() - 0.5)
-                if (dataarray.data.length != 0) {
-                    luckdraw = [];
-                    cek_input_class = true;
-                    data_user = dataarray.data
-                }
-                var cek_jml = dataarray.data.length - 1;
-                for (let i = 0; i < dataarray.data.length; i++) {
-                    luckdraw.push({
-                        'fillStyle': '#' + Math.floor(Math.random() * 16777215).toString(16),
-                        'text': dataarray.data[i].data
-                    });
-                    if (i == cek_jml) {
-                        lengthDraw = luckdraw.length;
-                        if (lengthDraw <= 10) {
-                            textsize = 15
-                        } else {
-                            textsize = 12
+                if (dataarray.data[0].data == "") {
+                    alert('Tambahkan Data Terlebih Dahulu.');
+                } else {
+                    var count_kelompok = $('#jml_kel').val()
+
+                    $(".table-data").html("");
+                    var result = makeTable(count_kelompok);
+                    $(".table-data").append(result);
+
+                    // dataarray.data = dataarray.data.sort(() => Math.random() - 0.5)
+                    if (dataarray.data.length != 0) {
+                        luckdraw = [];
+                        cek_input_class = true;
+                        data_user = dataarray.data
+                    }
+                    var cek_jml = dataarray.data.length - 1;
+                    for (let i = 0; i < dataarray.data.length; i++) {
+                        luckdraw.push({
+                            'fillStyle': '#' + Math.floor(Math.random() * 16777215).toString(16),
+                            'text': dataarray.data[i].data
+                        });
+                        if (i == cek_jml) {
+                            lengthDraw = luckdraw.length;
+                            if (lengthDraw <= 10) {
+                                textsize = 15
+                            } else {
+                                textsize = 12
+                            }
+                            winwheel()
                         }
-                        winwheel()
                     }
                 }
             }
@@ -291,6 +391,14 @@
 
         $(document).ready(function () {
 
+            // $(".table-data").html("");
+
+            /*this function makes a table of size numRow and
+                  num data. it then gives each data element
+                  */
+
+
+            //starting area
             $('.data-repeater').repeater({
                 defaultValues: {
                     'text-input': 'foo'
@@ -313,5 +421,45 @@
 
         });
 
+        function getacak(elem) {
+
+            var id = $(elem).data('id');
+            var acakdata = [];
+            var no = 0
+            for (var i = 0; i < data_user_tabel.length; i++) {
+                no = i + 1;
+                if (data_user_tabel[i].tabel == id && data_user_tabel[i].status == 0) {
+                    acakdata.push(data_user_tabel[i])
+                }
+                if (no == data_user_tabel.length) {
+                    acakdata = acakdata.sort(() => Math.random() - 0.5)
+                }
+            }
+            alert("data yang terpilih adalah "+acakdata[0].data)
+            $("#table_no_" + id).empty();
+            var tbody = document.getElementById("table_no_" + id);
+            acakdata[0].status = 1;
+            var no = 0
+            for (var i = 0; i < data_user_tabel.length; i++) {
+                if (data_user_tabel[i].tabel == id) {
+                    if(acakdata[0].data == data_user_tabel[i].data){
+                        data_user_tabel[i].status = 1
+                        var tr = "<tr style='background: red'>";
+                    }
+                    else if(data_user_tabel[i].status == 1){
+                        var tr = "<tr style='background: red'>";
+                    }
+                    else{
+                        var tr = "<tr>";
+                    }
+                    no = no + 1;
+                    /* Must not forget the $ sign */
+                    tr += "<td>" + no + "</td>" + "<td>" + data_user_tabel[i].data + "</td></tr>";
+                    /* We add the table row to the table body */
+                    tbody.innerHTML += tr;
+                }
+            }
+
+        }
     </script>
 @endsection

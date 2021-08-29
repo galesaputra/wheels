@@ -34,7 +34,6 @@
                     <span>Tambah</span>
                 </button>
             </form>
-
             <div class="row" style="margin-top: 20px; ">
                 <div class="col-md-3">
                     <button type="button" class="btn btn-icon btn-primary" id="SaveData">
@@ -67,9 +66,6 @@
 
         </div>
     </div>
-    <style>
-
-    </style>
 @endsection
 @section('javascript')
     <script type="text/javascript" src="./repeater.js"></script>
@@ -87,7 +83,6 @@
             });
         });
         $(document).ready(function () {
-
             $('section').chainFade({
                 speed: 500,
                 interval: 50
@@ -96,6 +91,7 @@
                 var dataarray = $('.data-repeater').repeaterVal()
                 dataarray.data = dataarray.data.sort(() => Math.random() - 0.5)
                 // var dataarray1 = dynamicgenerator(dataarray.data,"data");
+
                 var tbody = document.getElementById('resultData');
                 $("#resultData").empty();
                 var no = 0
@@ -119,6 +115,7 @@
                         $(".box").css('transform', "scale(1.0)");
                     }
                 }
+
             });
 
             $('.data-repeater').repeater({
@@ -143,10 +140,12 @@
         });
 
         function getcustomer(elem) {
+
             var id = $(elem).data('id');
             var color = $(elem).data('color');
             $(".hover_bkgr_fricc > div").css('background-color', "#" + color);
-            $(".trigger_popup_fricc").trigger('click');
+            $('.hover_bkgr_fricc').show();
+            // $(".trigger_popup_fricc").trigger('click');
             $("#pop-up-text").empty();
             var elemt = document.getElementById("pop-up-text");
             var text = document.createTextNode(id);

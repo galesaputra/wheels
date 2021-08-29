@@ -19,4 +19,10 @@ class Uploads extends Model
     use SoftDeletes;
 
     protected $fillable = ['user_id','keterangan','file'];
+
+    public function options()
+    {
+        return $this->hasMany(Topic::class, 'keterangan')->withTrashed();
+    }
+
 }

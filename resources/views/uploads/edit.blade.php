@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('keterangan', 'Code snippet', ['class' => 'control-label']) !!}
-                    {!! Form::textarea('keterangan', old('keterangan'), ['class' => 'form-control ', 'placeholder' => '']) !!}
+                    {!! Form::select('keterangan', $topic, old('keterangan'), ['class' => 'form-control', 'style' => 'height: 33px;']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('keterangan'))
                         <p class="help-block">

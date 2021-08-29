@@ -31,7 +31,7 @@
                             <tr data-entry-id="{{ $row->id }}">
                                 <td></td>
                                 <td>{{ $row->name or '' }}</td>
-                                <td>{{ $row->keterangan or '' }}</td>
+                                <td>{{ $row->title or '' }}  </td>
                                 <td><a href="./{{$row->file}}" target="_blank">Lihat File</a> </td>
 
                                 <td>

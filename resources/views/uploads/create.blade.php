@@ -16,7 +16,7 @@
                 <div class="col-xs-12 form-group">
                     <input type="hidden" name="user_id" id="user_id" value="{{auth()->user()->id}}"/>
                     {!! Form::label('keterangan', 'Keterangan*', ['class' => 'control-label']) !!}
-                    {!! Form::textarea('keterangan', old('keterangan'), ['class' => 'form-control ', 'placeholder' => '', 'id' => 'KeteranganData']) !!}
+                    {!! Form::select('keterangan', $topic, old('keterangan'), ['class' => 'form-control', 'style' => 'height: 33px;']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('keterangan'))
                         <p class="help-block">

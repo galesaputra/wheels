@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Topic;
 use App\Uploads;
 use App\UploadsOption;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUploadsRequest;
 use App\Http\Requests\UpdateUploadsRequest;
@@ -36,7 +38,8 @@ class UploadsController extends Controller
         if(auth()->user()->role_id == 1){
             $uploads = DB::table('uploads')
                 ->join('users', 'users.id', '=', 'uploads.user_id')
-                ->select('users.name as name','uploads.*')
+                ->join('topics', 'topics.id', '=', 'uploads.keterangan')
+                ->select('users.name as name','topics.title as title','uploads.*')
                 ->whereNull('uploads.deleted_at')
                 ->get();
 
@@ -44,7 +47,8 @@ class UploadsController extends Controller
         else{
             $uploads = DB::table('uploads')
                 ->join('users', 'users.id', '=', 'uploads.user_id')
-                ->select('users.name as name' ,'uploads.*')
+                ->join('topics', 'topics.id', '=', 'uploads.keterangan')
+                ->select('users.name as name','topics.title as title' ,'uploads.*')
                 ->where('uploads.user_id',auth()->user()->id)
                 ->whereNull('uploads.deleted_at')
                 ->get();
@@ -60,7 +64,9 @@ class UploadsController extends Controller
      */
     public function create()
     {
-        return view('uploads.create');
+        $topic = \App\Topic::get()->pluck('title', 'id')->prepend('Please select', '');
+
+        return view('uploads.create',compact('topic'));
     }
 
     /**
@@ -98,10 +104,10 @@ class UploadsController extends Controller
      */
     public function edit($id)
     {
-
+        $topic = \App\Topic::get()->pluck('title', 'id')->prepend('Please select', '');
         $uploads = Uploads::findOrFail($id);
 
-        return view('uploads.edit', compact('uploads'));
+        return view('uploads.edit', compact('uploads','topic'));
     }
 
     /**
