@@ -8,90 +8,102 @@
 @section('content')
 
     <div class="content">
-
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-3">
-                    <label for="name">Data</label>
-                    <form action="#" class="data-repeater">
-                        <div data-repeater-list="data">
-                            <div data-repeater-item>
-                                <div class="row" style="margin-top: 10px;">
-                                    <div class="col-md-9">
-                                        <input name="data" type="text" class="form-control" id="name"
-                                               aria-describedby="name"
-                                               placeholder="Data"/>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <button type="button" class="btn btn-outline-danger" data-repeater-delete
-                                                style="margin-top: 2px;">
-                                            <i data-feather="x" class="me-25"></i>
-                                            <span>Hapus</span>
+        <div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+                                                          data-toggle="tab">Bentuk Kelompok</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Pilih
+                        Kelompok</a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="name">Nama Kelompok</label>
+                                    <form action="#" class="data-repeater">
+                                        <div data-repeater-list="data">
+                                            <div data-repeater-item>
+                                                <div class="row" style="margin-top: 10px;">
+                                                    <div class="col-md-9">
+                                                        <input name="data" type="text" class="form-control"
+                                                               id="name"
+                                                               aria-describedby="name"
+                                                               placeholder="Kelompok"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="margin-top: 10px;">
+                                                    <div class="col-md-9">
+                                            <textarea id="post-text" class="form-control" rows="4"
+                                                      placeholder="Nama Mahasiswa" required name="mahasiswa"></textarea><br>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button type="button" class="btn btn-outline-danger"
+                                                                data-repeater-delete
+                                                                style="margin-top: 2px;">
+                                                            <i data-feather="x" class="me-25"></i>
+                                                            <span>Hapus</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-icon btn-warning"
+                                                data-repeater-create="">
+                                            <i data-feather="plus" class="me-25"></i>
+                                            <span>Tambah</span>
                                         </button>
-                                    </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 20px; ">
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-icon btn-primary" id="SaveData">
+                                        <i data-feather="plus" class="me-25"></i>
+                                        <span>Simpan & Reset</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-icon btn-warning" data-repeater-create="">
-                            <i data-feather="plus" class="me-25"></i>
-                            <span>Tambah</span>
-                        </button>
-                    </form>
-                    <div class="row" style="margin-top: 10px;">
-                        <div class="col-md-9">
-                            <input name="data" type="text" class="form-control" id="jml_kel"
-                                   onkeypress='validate(event)'
-                                   placeholder="Jumlah Kelompok"/>
+                        <div class="col-md-8">
+                            <table cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td>
+                                        <div class="power_controls">
+                                            <br/>
+                                            <img id="spin_button" src="spin_off.png" alt="Spin"
+                                                 onClick="startSpin();"
+                                                 style="cursor: pointer"/>
+                                        </div>
+                                    </td>
+                                    <td height="582" class="the_wheel" align="center" valign="center">
+                                        <canvas id="canvas" width="434" height="434">
+                                            <p style="{color: white}" align="center">Sorry, your browser doesn't
+                                                support canvas.
+                                                Please
+                                                try another.</p>
+                                        </canvas>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
+
+
                     </div>
-
+                </div>
+                <div role="tabpanel" class="tab-pane" id="profile">
+                    <div class="table-data">
+                    </div>
                 </div>
             </div>
-            <div class="row" style="margin-top: 20px; ">
-                <div class="col-md-3">
-                    <button type="button" class="btn btn-icon btn-primary" id="SaveData">
-                        <i data-feather="plus" class="me-25"></i>
-                        <span>Simpan</span>
-                    </button>
-                </div>
-            </div>
-
-
-            <table cellpadding="0" cellspacing="0" border="0">
-                <tr>
-                    <td>
-                        <div class="power_controls">
-                            <br/>
-                            <img id="spin_button" src="spin_off.png" alt="Spin" onClick="startSpin();"
-                                 style="cursor: pointer"/>
-                        </div>
-                    </td>
-                    <td height="582" class="the_wheel" align="center" valign="center">
-                        <canvas id="canvas" width="434" height="434">
-                            <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please
-                                try another.</p>
-                        </canvas>
-                    </td>
-                    {{--                    <td width="438" height="582" align="center" valign="center">--}}
-                    {{--                        <p>Hasil Lucky Draw</p>--}}
-                    {{--                        <table style="width:100%" class="table">--}}
-                    {{--                            <tr>--}}
-                    {{--                                <th>No</th>--}}
-                    {{--                                <th>Data</th>--}}
-                    {{--                            </tr>--}}
-                    {{--                            <tbody id="tbody">--}}
-                    {{--                            <td colspan="3" style="text-align: center;background-color: gray">Data Masih Kosong</td>--}}
-                    {{--                            </tbody>--}}
-                    {{--                        </table>--}}
-                    {{--                    </td>--}}
-                </tr>
-            </table>
         </div>
 
+    </div>
 
-    </div>
-    <div class="table-data">
-    </div>
 
 @endsection
 @section('javascript')
@@ -234,55 +246,38 @@
         function alertPrize(indicatedSegment) {
 
             var countspin = selectspin + 1;
-            if (countspin > $('#jml_kel').val()) {
+            var x = document.getElementById("show_no_" + selectspin);
+            x.style.display = "block";
 
-                selectspin = 0
-                $("#table_no_" + selectspin).empty();
-                var tbody = document.getElementById("table_no_" + selectspin);
-                var resultObject = search(indicatedSegment.text, data_user);
-                Object.assign(resultObject, {tabel: selectspin, status: 0});
-                data_user_tabel.push(resultObject)
-                var no = 0;
-                for (var i = 0; i < data_user_tabel.length; i++) {
-                    if (data_user_tabel[i].tabel == selectspin) {
+            $("#table_no_" + selectspin).empty();
+            var tbody = document.getElementById("table_no_" + selectspin);
+            var rowtabel = selectspin + 1
+            document.getElementById("nametable" + selectspin).innerHTML = "Tabel Kelompok " + rowtabel + " " + indicatedSegment.text;
+            var resultObject = search(indicatedSegment.text, data_user);
+            Object.assign(resultObject, {tabel: selectspin, status: 0});
+            data_user_tabel.push(resultObject)
+            var no = 0
+            for (var i = 0; i < data_user_tabel.length; i++) {
+                if (data_user_tabel[i].tabel == selectspin) {
+                    console.log(data_user_tabel[i].row)
+                    for (var a = 0; a < data_user_tabel[i].row.length; a++) {
                         no = no + 1;
-                        var tr = "<tr>";
-
-                        /* Must not forget the $ sign */
-                        tr += "<td>" + no + "</td>" + "<td>" + data_user_tabel[i].data + "</td></tr>";
-                        /* We add the table row to the table body */
-                        tbody.innerHTML += tr;
-                    }
-                }
-                selectspin = 1
-            } else {
-                $("#table_no_"+selectspin).empty();
-                var tbody = document.getElementById("table_no_" + selectspin);
-
-                var resultObject = search(indicatedSegment.text, data_user);
-                Object.assign(resultObject, {tabel: selectspin, status: 0});
-                data_user_tabel.push(resultObject)
-                var no = 0
-                for (var i = 0; i < data_user_tabel.length; i++) {
-                    if (data_user_tabel[i].tabel == selectspin) {
-                        no = no + 1;
-                        if(data_user_tabel[i].status == 1){
+                        if (data_user_tabel[i].row[a].status == 1) {
                             var tr = "<tr style='background: red'>";
-                        }
-                        else{
+                        } else {
                             var tr = "<tr>";
                         }
 
                         /* Must not forget the $ sign */
-                        tr += "<td>" + no + "</td>" + "<td>" + data_user_tabel[i].data + "</td></tr>";
+                        tr += "<td>" + no + "</td>" + "<td>" + data_user_tabel[i].row[a].name + "</td></tr>";
                         /* We add the table row to the table body */
                         tbody.innerHTML += tr;
                     }
                 }
-
-                selectspin = parseInt(selectspin + 1);
-
             }
+            selectspin = parseInt(selectspin + 1);
+
+            // }
 
 
             $.each(luckdraw, function (i) {
@@ -323,24 +318,31 @@
                 }
             }
         }
+        var cols = document.getElementsByClassName('row');
+        for(i = 0; i < cols.length; i++) {
+            cols[i].style.display = 'block';
+        }
 
         function makeTable(num) {
-            var output = '<div class="row">';
+
+            var output = '<div class="row makan" style="">' +
+                '<style> .row. {display: contents}</style>';
             //create num rows
             var count = 0;
             for (var i = 0; i < num; i++) {
                 count = i + 1;
                 //for each row
                 var idtable = "table_no_" + i;
-                var idbutton = "button_no_" + i;
+                var idshowbutton = "show_no_" + i;
+                var nametable = "nametable" + i;
                 output += '<div class="col-md-4">';
-                output += '<p style="text-align:center">Table Kelompok ' + count + '</p>';
+                output += '<p id="' + nametable + '" style="text-align:center">Table Kelompok ' + count + '</p>';
                 output += '<table class="table">';
-                output += ' <tr> <th>No</th> <th>Data</th> </tr>'
+                output += ' <tr> <th>No</th> <th>Nama</th> </tr>'
                 output += '<tbody id="' + idtable + '">'
                 output += '</tbody>';
                 output += '</table>';
-                output += '<button type="button" data-id="' + i + '" onclick="getacak(this);" class="btn btn-icon btn-primary"> <i data-feather="plus" class="me-25"></i> <span>Acak & Pilih</span> </button>';
+                output += '<button id="' + idshowbutton + '" style="display: none" type="button"  data-id="' + i + '" onclick="getacak(this);" class="btn btn-icon btn-primary"> <i data-feather="plus" class="me-25"></i> <span>Acak & Pilih</span> </button>';
                 output += '</div>';
 
             }
@@ -350,43 +352,45 @@
 
         $('#SaveData').click(function () {
             var dataarray = $('.data-repeater').repeaterVal()
-            let data_user_tabel = [];
-            if ($('#jml_kel').val() == null || $('#jml_kel').val() == '') {
-                alert("Masukkan Jumlah Kelompok Terlebih Dahulu")
+            selectspin = 0
+            if (dataarray.data[0].data == "") {
+                alert('Tambahkan Data Terlebih Dahulu.');
             } else {
-                if (dataarray.data[0].data == "") {
-                    alert('Tambahkan Data Terlebih Dahulu.');
-                } else {
-                    var count_kelompok = $('#jml_kel').val()
 
-                    $(".table-data").html("");
-                    var result = makeTable(count_kelompok);
-                    $(".table-data").append(result);
+                $(".table-data").html("");
+                var result = makeTable(dataarray.data.length);
+                $(".table-data").append(result);
 
-                    // dataarray.data = dataarray.data.sort(() => Math.random() - 0.5)
-                    if (dataarray.data.length != 0) {
-                        luckdraw = [];
-                        cek_input_class = true;
-                        data_user = dataarray.data
+                // dataarray.data = dataarray.data.sort(() => Math.random() - 0.5)
+                if (dataarray.data.length != 0) {
+                    luckdraw = [];
+                    cek_input_class = true;
+                    data_user = dataarray.data
+                }
+                var cek_jml = dataarray.data.length - 1;
+                for (let i = 0; i < dataarray.data.length; i++) {
+                    var datamahasiswa = dataarray.data[i].mahasiswa.split(/\n/g)
+                    dataarray.data[i].row = []
+                    datamahasiswa.forEach(myFunction);
+                    function myFunction(item, index) {
+                        dataarray.data[i].row.push({name: item, status: 0})
                     }
-                    var cek_jml = dataarray.data.length - 1;
-                    for (let i = 0; i < dataarray.data.length; i++) {
-                        luckdraw.push({
-                            'fillStyle': '#' + Math.floor(Math.random() * 16777215).toString(16),
-                            'text': dataarray.data[i].data
-                        });
-                        if (i == cek_jml) {
-                            lengthDraw = luckdraw.length;
-                            if (lengthDraw <= 10) {
-                                textsize = 15
-                            } else {
-                                textsize = 12
-                            }
-                            winwheel()
+                    luckdraw.push({
+                        'fillStyle': '#' + Math.floor(Math.random() * 16777215).toString(16),
+                        'text': dataarray.data[i].data
+                    });
+                    if (i == cek_jml) {
+                        lengthDraw = luckdraw.length;
+                        if (lengthDraw <= 10) {
+                            textsize = 15
+                        } else {
+                            textsize = 12
                         }
+                        winwheel()
                     }
                 }
             }
+
         });
 
         $(document).ready(function () {
@@ -427,36 +431,42 @@
             var acakdata = [];
             var no = 0
             for (var i = 0; i < data_user_tabel.length; i++) {
-                no = i + 1;
-                if (data_user_tabel[i].tabel == id && data_user_tabel[i].status == 0) {
-                    acakdata.push(data_user_tabel[i])
-                }
-                if (no == data_user_tabel.length) {
-                    acakdata = acakdata.sort(() => Math.random() - 0.5)
+                for (var a = 0; a < data_user_tabel[i].row.length; a++) {
+                    no = a + 1;
+                    if (data_user_tabel[i].tabel == id) {
+                        data_user_tabel[i].row[a].status =0
+                    }
+                    if (data_user_tabel[i].tabel == id && data_user_tabel[i].row[a].status == 0) {
+
+                        acakdata.push(data_user_tabel[i].row[a])
+                    }
+                    if (no == data_user_tabel[i].row.length) {
+                        acakdata = acakdata.sort(() => Math.random() - 0.5)
+                    }
                 }
             }
-            alert("data yang terpilih adalah "+acakdata[0].data)
+            alert("data yang terpilih adalah " + acakdata[0].name)
             $("#table_no_" + id).empty();
             var tbody = document.getElementById("table_no_" + id);
             acakdata[0].status = 1;
             var no = 0
             for (var i = 0; i < data_user_tabel.length; i++) {
                 if (data_user_tabel[i].tabel == id) {
-                    if(acakdata[0].data == data_user_tabel[i].data){
-                        data_user_tabel[i].status = 1
-                        var tr = "<tr style='background: red'>";
+                    for (var a = 0; a < data_user_tabel[i].row.length; a++) {
+                        if (acakdata[0].name == data_user_tabel[i].row[a].name) {
+                            data_user_tabel[i].row[a].status = 1
+                            var tr = "<tr style='background: red'>";
+                        } else if (data_user_tabel[i].row[a].status == 1) {
+                            var tr = "<tr style='background: red'>";
+                        } else {
+                            var tr = "<tr>";
+                        }
+                        no = no + 1;
+                        /* Must not forget the $ sign */
+                        tr += "<td>" + no + "</td>" + "<td>" + data_user_tabel[i].row[a].name + "</td></tr>";
+                        /* We add the table row to the table body */
+                        tbody.innerHTML += tr;
                     }
-                    else if(data_user_tabel[i].status == 1){
-                        var tr = "<tr style='background: red'>";
-                    }
-                    else{
-                        var tr = "<tr>";
-                    }
-                    no = no + 1;
-                    /* Must not forget the $ sign */
-                    tr += "<td>" + no + "</td>" + "<td>" + data_user_tabel[i].data + "</td></tr>";
-                    /* We add the table row to the table body */
-                    tbody.innerHTML += tr;
                 }
             }
 
