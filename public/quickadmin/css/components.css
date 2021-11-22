@@ -4109,7 +4109,7 @@ Customized Bootstrap Modal
 }
 
 .modal-open {
-  overflow-y: auto !important;
+  overflow-y: auto;
 }
 
 .modal-open-noscroll {

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Box;
 use App\Http\Requests;
+use App\Lucky;
 use App\UserAction;
 use Auth;
 use App\Question;
@@ -81,25 +83,114 @@ class HomeController extends Controller
     }
     public function luckyDraw()
     {
-        $class_get = DB::table('class')
-            ->select('topics_title')
-            ->groupBy('topics_title')
+        $lucky = DB::table('lucky')
+            ->select('lucky.*')
+            ->where('jenis', 0)
+            ->whereNull('deleted_at')
             ->get();
-        return view('lucky_draw', compact('class_get'));
+        $lucky2 = DB::table('lucky')
+            ->select('lucky.*')
+            ->where('jenis', 1)
+            ->whereNull('deleted_at')
+            ->get();
+        return view('lucky_draw', compact('lucky', 'lucky2'));
     }
+
     public function getUsersByClass($id)
     {
         $users_get = DB::table('class')
             ->join('users', 'users.id', '=', 'class.users_id')
-            ->select('users.*','class.topics_title')
-            ->where('class.topics_title',$id)
+            ->select('users.*', 'class.topics_title')
+            ->where('class.topics_title', $id)
             ->get();
-        return response()->json(['status'=>"success", 'response'=>$users_get]);
+        return response()->json(['status' => "success", 'response' => $users_get]);
         return $users_get;
     }
+
     public function boxPage()
     {
-        return view('box_page');
+        $box = DB::table('box')
+            ->select('box.*')
+            ->whereNull('deleted_at')
+            ->get();
+        return view('box_page', compact('box'));
     }
+
+    public function saveClassLucky(Request $request)
+    {
+        $masuk_query[] =
+            [
+                'created_at' => now(),
+                'updated_at' => now(),
+                'kelas' => $request->kelas,
+                'jml_kel' => $request->jml_kel,
+                'jenis' => $request->jenis,
+                'detail' => json_encode($request->detail)
+            ];
+
+        DB::table('lucky')->insert($masuk_query);
+        if ($request->ajax()) {
+            $lucky = DB::table('lucky')
+                ->select('lucky.*')
+                ->where('jenis', $request->jenis)
+                ->whereNull('deleted_at')
+                ->get();
+
+            return json_encode($lucky);
+        }
+    }
+
+    public function destroyLucky(Request $request)
+    {
+        $flight = Lucky::where('kelas', $request->kelas)->first();
+        $question = Lucky::findOrFail($flight->id);
+        $question->delete();
+        if ($request->ajax()) {
+            $lucky = DB::table('lucky')
+                ->select('lucky.*')
+                ->whereNull('deleted_at')
+                ->where('jenis', $flight->jenis)
+                ->get();
+
+            return json_encode($lucky);
+        }
+    }
+
+    public function saveClassBox(Request $request)
+    {
+        $masuk_query[] =
+            [
+                'created_at' => now(),
+                'updated_at' => now(),
+                'materi' => $request->materi,
+                'detail' => json_encode($request->detail)
+            ];
+
+        DB::table('box')->insert($masuk_query);
+        if ($request->ajax()) {
+            $lucky = DB::table('box')
+                ->select('box.*')
+                ->whereNull('deleted_at')
+                ->get();
+
+            return json_encode($lucky);
+        }
+    }
+
+    public function destroyBox(Request $request)
+    {
+        $flight = Box::where('materi', $request->materi)->first();
+        $question = Box::findOrFail($flight->id);
+        $question->delete();
+        if ($request->ajax()) {
+            $lucky = DB::table('box')
+                ->select('box.*')
+                ->whereNull('deleted_at')
+                ->get();
+
+            return json_encode($lucky);
+        }
+    }
+
 
 }
