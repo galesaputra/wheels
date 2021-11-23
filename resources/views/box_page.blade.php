@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('javascript_head')
-    <link rel="stylesheet" href="./css/estilos.css">
+    <link rel="stylesheet" href="./css/estilos20211123.css">
 @endsection
 @section('content')
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -338,7 +338,7 @@
                         if (no == dataarray.data.length) {
                             if (dataarray.data.length <= 5) {
                                 var clientHeight = 200
-                            } else if (dataarray.data.length <= 5) {
+                            } else if (dataarray.data.length <= 10) {
                                 var clientHeight = 400
                             } else if (dataarray.data.length <= 20) {
                                 var clientHeight = 600
