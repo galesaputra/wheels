@@ -80,9 +80,9 @@ section:nth-child(2n) {
 
 .demoContainer {
     position: absolute;
-    top: 50%;
+    /*top: 50%;*/
     left: 10px;
-    transform: translateY(-50%);
+    /*transform: translateY(-50%);*/
 }
 
 pre {
@@ -96,8 +96,8 @@ pre {
 }
 
 .box {
-    width: 200px;
-    height: 200px;
+    width: 190px;
+    height: 190px;
     display: block;
     background-color: #ffffff;
     float: left;

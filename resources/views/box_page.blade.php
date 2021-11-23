@@ -150,7 +150,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <section style="width: 100%;">
+                        <section style="width: 100%;" id="ResuldDataBox">
                             <div class="demoContainer">
                                 <div class="demo toThebottom clearfix" id="resultData">
                                     <p style="text-align: center;margin-top: 8px;margin-left: 460px;">Data Masih
@@ -160,7 +160,7 @@
                             </div>
                         </section>
                         {{--                    <h2 style="text-align: center">Priview Card</h2>--}}
-                        <section style="width: 100%;">
+                        <section style="width: 100%;" id="ReviewDataBox">
                             <div class="demoContainer">
                                 <div class="demo toThebottom clearfix" id="reviewData">
                                     <p style="text-align: center;margin-top: 8px;margin-left: 460px;">Data Masih
@@ -249,6 +249,7 @@
                                 // you can check for status here
                                 reviewarray = []
                                 $("#reviewData").empty();
+                                $("#resultData").empty();
                                 var foreach = JSON.parse(data)
                                 $('#materi_data').empty()
                                 $('#materi_data').append("<option value=''>Pilih Materi</option>")
@@ -258,63 +259,14 @@
                                 $('.nav-tabs a[href="#kotak"]').tab('show');
                             },
                             error: function (XMLHttpRequest) {
-                                // toastr.error('Something Went Wrong !');
                             }
 
                         });
                     }
                 }
-
-                // reviewarray = []
-                // $("#reviewData").empty();
-                // dataarray.data = dataarray.data.sort(() => Math.random() - 0.5)
-                // // var dataarray1 = dynamicgenerator(dataarray.data,"data");
-                //
-                // var tbody = document.getElementById('resultData');
-                // $("#resultData").empty();
-                // var no = 0
-                // var data = "";
-                // for (var i = 0; i < dataarray.data.length; i++) {
-                //     no = i + 1;
-                //     var colors = ['#ff0000', '#00ff00', '#0000ff','#ff4000','#ff8000','#ffbf00','#ffff00','#bfff00','#80ff00','#40ff00','#00ff00','#00ff40','#2f4f4f',
-                //     '#00ff80','#00ffbf','#00ffff','#00bfff','#0080ff','#0040ff','#0000ff','#4000ff','#8000ff','#bf00ff','#ff00ff','#ff00bf','#ff0080','#ff0040','#ff0000',
-                //     '#ffa500','#f0f8ff','#faebd7','#7fffd4','#f0ffff','#f5f5dc','#ffe4c4','#deb887','#5f9ea0','#a9a9a9','#bdb76b','#556b2f','#ff8c00','#e9967a','#483d8b'];
-                //     var color = colors[Math.floor(Math.random() * colors.length)];
-                //     // var color = Math.floor(Math.random() * 16777215).toString(16);
-                //     /* Must not forget the $ sign */
-                //     var boxdata = "box_" + i;
-                //     var keterangan = "keterangan_" + i;
-                //     data = "<div class='box' onclick='getcustomer(this);' data-id='" + dataarray.data[i].data + "' data-nomer='" + i + "' " +
-                //         "style='cursor: pointer;position: relative;background-color: " + color + ";display: flex;justify-content: center;align-items: center;text-align: center;transform: scale(1);font-size: 28px;  font-weight: bold;'>"+dataarray.data[i].data+"</div>";
-                //
-                //     /* We add the table row to the table body */
-                //     tbody.innerHTML += data;
-                //     if (no == dataarray.data.length) {
-                //         if (reviewarray.length <= 3) {
-                //             var clientHeight = 200
-                //         } else if (reviewarray.length <= 6) {
-                //             var clientHeight = 400
-                //         } else if (reviewarray.length <= 9) {
-                //             var clientHeight = 600
-                //         } else if (reviewarray.length <= 12) {
-                //             var clientHeight = 800
-                //         } else if (reviewarray.length <= 15) {
-                //             var clientHeight = 1000
-                //         } else if (reviewarray.length <= 18) {
-                //             var clientHeight = 1200
-                //         }
-                //         $("section").css('height', parseInt(clientHeight + 40) + "px");
-                //         $("section").css('display', "block");
-                //         $(".box").css('transform', "scale(1.0)");
-                //         alert("Berhasil Tersimpan")
-                //         $('.nav-tabs a[href="#kotak"]').tab('show');
-                //
-                //     }
-                // }
-
             });
             $('#DeleteData').click(function () {
-                // console.log($("#kelas_data option:selected").text());
+
                 if ($('#materi_data').val() == null || $('#materi_data').val() == '') {
                     alert('Tambahkan Materi/Pelajaran Terlebih Dahulu');
                 } else {
@@ -352,11 +304,10 @@
 
             });
             $('#SaveDatahasil').click(function () {
-                // console.log($("#kelas_data option:selected").text());
+
                 if ($('#materi_data').val() == null || $('#materi_data').val() == '') {
                     alert('Tambahkan Materi/Pelajaran Terlebih Dahulu');
                 } else {
-                    console.log($('#materi_data').val())
                     reviewarray = []
                     $("#reviewData").empty();
                     var cekdata = $('#materi_data').val()
@@ -385,21 +336,21 @@
                         /* We add the table row to the table body */
                         tbody.innerHTML += data;
                         if (no == dataarray.data.length) {
-                            if (reviewarray.length <= 3) {
+                            if (dataarray.data.length <= 5) {
                                 var clientHeight = 200
-                            } else if (reviewarray.length <= 6) {
+                            } else if (dataarray.data.length <= 5) {
                                 var clientHeight = 400
-                            } else if (reviewarray.length <= 9) {
+                            } else if (dataarray.data.length <= 20) {
                                 var clientHeight = 600
-                            } else if (reviewarray.length <= 12) {
+                            } else if (dataarray.data.length <= 25) {
                                 var clientHeight = 800
-                            } else if (reviewarray.length <= 15) {
+                            } else if (dataarray.data.length <= 30) {
                                 var clientHeight = 1000
-                            } else if (reviewarray.length <= 18) {
+                            } else if (dataarray.data.length <= 40) {
                                 var clientHeight = 1200
                             }
-                            $("section").css('height', parseInt(clientHeight + 40) + "px");
-                            $("section").css('display', "block");
+                            $("#ResuldDataBox").css('height', parseInt(clientHeight + 40) + "px");
+                            $("#ResuldDataBox").css('display', "block");
                             $(".box").css('transform', "scale(1.0)");
                         }
 
@@ -434,7 +385,6 @@
 
 
             var nomer = $(elem).data('nomer');
-            console.log(dataarray.data[nomer])
             if (dataarray.data[nomer].status == 0) {
                 var databox = "box_" + nomer;
                 $("#" + databox).css('cursor', "no-drop");
@@ -547,8 +497,8 @@
                     tbody.innerHTML += data;
                     if (no == reviewarray.length) {
                         var clientHeight = document.getElementById('reviewData').clientHeight
-                        $("section").css('height', parseInt(clientHeight + 40) + "px");
-                        $("section").css('display', "block");
+                        $("#ReviewDataBox").css('height', parseInt(clientHeight + 40) + "px");
+                        $("#ReviewDataBox").css('display', "block");
                         $(".box").css('transform', "scale(1.0)");
                     }
                 }
@@ -599,9 +549,7 @@
             var reader = new FileReader();
             reader.onloadend = function () {
                 document.querySelector('input[name="' + newStr + '"]').value = reader.result;
-                console.log(reader.result)
                 $(element).parent().parent().parent().parent().find('.form-controls').html("<img src=" + reader.result + " style='max-height: 120px;position: absolute;'>")
-                // $(element).parent().parent().find('.form-control').html($(element).val().split(/[\\|/]/).pop())
             }
             reader.readAsDataURL(file);
         }
